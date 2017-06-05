@@ -37,16 +37,6 @@ pipeline
 					workspace=`pwd`
 					cd ./src/github.com/influxdata/telegraf
 					make package
-					cd $workspace
-					mv ./src/github.com/influxdata/telegraf/build/ ./release/'''
-			}
-		}
-		
-		stage('Archive')
-		{
-			steps
-			{
-				archiveArtifacts artifacts: 'release/**', onlyIfSuccessful: true
 			}
 		}
 		stage('CleanUp')
