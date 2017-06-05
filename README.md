@@ -154,6 +154,7 @@ configuration options.
 * [hddtemp](./plugins/inputs/hddtemp)
 * [http_response](./plugins/inputs/http_response)
 * [httpjson](./plugins/inputs/httpjson) (generic JSON-emitting http service plugin)
+* [huawei_hilink_api](./plugins/inputs/huawei_hilink_api)
 * [internal](./plugins/inputs/internal)
 * [influxdb](./plugins/inputs/influxdb)
 * [interrupts](./plugins/inputs/interrupts)
