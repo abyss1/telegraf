@@ -213,6 +213,7 @@ configuration options.
 * [zookeeper](./plugins/inputs/zookeeper)
 * [win_perf_counters](./plugins/inputs/win_perf_counters) (windows performance counters)
 * [win_services](./plugins/inputs/win_services)
+* [webapi](./plugins/inputs/webapi)
 * [sysstat](./plugins/inputs/sysstat)
 * [system](./plugins/inputs/system)
     * cpu
