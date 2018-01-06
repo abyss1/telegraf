@@ -2,6 +2,7 @@ package httpjson
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/delphinus/go-digest-request"
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/plugins/inputs"
@@ -29,6 +31,8 @@ type HttpJson struct {
 	ResponseTimeout internal.Duration
 	Parameters      map[string]string
 	Headers         map[string]string
+	DigestUser      string
+	DigestPassword  string
 
 	// Path to CA file
 	SSLCA string `toml:"ssl_ca"`
@@ -246,6 +250,12 @@ func (h *HttpJson) sendRequest(serverURL string) (string, float64, error) {
 		strings.NewReader(data.Encode()))
 	if err != nil {
 		return "", -1, err
+	}
+
+	if h.DigestUser != "" && h.DigestPassword != "" {
+		r := digestRequest.New(context.Background(), h.DigestUser, h.DigestPassword) // username & password
+		respDigest, _ := r.Do(req)
+		defer respDigest.Body.Close()
 	}
 
 	// Add header parameters
