@@ -1,7 +1,7 @@
 properties(
 	[
 		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
-		pipelineTriggers([pollSCM('0 H(5-6) * * *')])
+		pipelineTriggers([upstream(threshold: 'SUCCESS', upstreamProjects: 'Marianob85/telegraf/HuaweiHilinkApi, Marianob85/telegraf/OpenHardwareMonitor '), pollSCM('0 H(5-6) * * *')])
 	]
 )
 
@@ -15,13 +15,14 @@ pipeline
 		{
 			steps
 			{
-				//cleanWs()
 				dir('src/github.com/influxdata/telegraf') 
 				{
-					checkout scm
+					checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'HuaweiHilinkApi']], [$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'OpenHardwareMonitor']]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '5f43e7cc-565c-4d25-adb7-f1f70e87f206', url: 'https://github.com/marianob85/telegraf']]]
 				}
 				sh '''
-					rm -f -d -r ./src/github.com/influxdata/telegraf/build'''
+					rm -f -d -r ./release
+					rm -f -d -r ./src/github.com/influxdata/telegraf/build
+					mkdir ./release'''
 			}
 		}
 		
@@ -35,10 +36,19 @@ pipeline
 					export GOPATH=${WORKSPACE}
 					workspace=`pwd`
 					cd ./src/github.com/influxdata/telegraf
-					make package'''
+					make package
+					cd $workspace
+					mv ./src/github.com/influxdata/telegraf/build/ ./release/'''
 			}
 		}
 		
+		stage('Archive')
+		{
+			steps
+			{
+				archiveArtifacts artifacts: 'release/**', onlyIfSuccessful: true
+			}
+		}
 		stage('CleanUp')
 		{
 			steps
