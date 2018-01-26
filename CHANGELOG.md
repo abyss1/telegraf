@@ -30,6 +30,7 @@
 - [#2846](https://github.com/influxdata/telegraf/pull/2846): Add support for dropwizard input format.
 - [#3666](https://github.com/influxdata/telegraf/pull/3666): Add container health metrics to docker input.
 - [#3687](https://github.com/influxdata/telegraf/pull/3687): Add support for using globs in devices list of diskio input plugin.
+- [#2754](https://github.com/influxdata/telegraf/pull/2754): Allow running as console application on Windows.
 
 ### Bugfixes
 
@@ -46,6 +47,7 @@
 - [#3629](https://github.com/influxdata/telegraf/issues/3629): Fix a potential deadlock when using aggregators.
 - [#3697](https://github.com/influxdata/telegraf/issues/3697): Limit wait time for writes in mqtt output.
 - [#3698](https://github.com/influxdata/telegraf/issues/3698): Revert change in graphite output where dot in field key was replaced by underscore.
+- [#3710](https://github.com/influxdata/telegraf/issues/3710): Add timeout to wavefront output write.
 
 ## v1.5.1 [2017-01-10]
 
