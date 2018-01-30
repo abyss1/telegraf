@@ -2,6 +2,7 @@ package httpjson
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/delphinus/go-digest-request"
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/plugins/inputs"
@@ -29,6 +31,8 @@ type HttpJson struct {
 	ResponseTimeout internal.Duration
 	Parameters      map[string]string
 	Headers         map[string]string
+	DigestUser      string
+	DigestPassword  string
 
 	// Path to CA file
 	SSLCA string `toml:"ssl_ca"`
@@ -100,6 +104,13 @@ var sampleConfig = `
   #   "my_tag_2"
   # ]
 
+  ## Optional SSL Config
+  # ssl_ca = "/etc/telegraf/ca.pem"
+  # ssl_cert = "/etc/telegraf/cert.pem"
+  # ssl_key = "/etc/telegraf/key.pem"
+  ## Use SSL but skip chain & host verification
+  # insecure_skip_verify = false
+
   ## HTTP parameters (all values must be strings).  For "GET" requests, data
   ## will be included in the query.  For "POST" requests, data will be included
   ## in the request body as "x-www-form-urlencoded".
@@ -111,13 +122,6 @@ var sampleConfig = `
   # [inputs.httpjson.headers]
   #   X-Auth-Token = "my-xauth-token"
   #   apiVersion = "v1"
-
-  ## Optional SSL Config
-  # ssl_ca = "/etc/telegraf/ca.pem"
-  # ssl_cert = "/etc/telegraf/cert.pem"
-  # ssl_key = "/etc/telegraf/key.pem"
-  ## Use SSL but skip chain & host verification
-  # insecure_skip_verify = false
 `
 
 func (h *HttpJson) SampleConfig() string {
@@ -246,6 +250,12 @@ func (h *HttpJson) sendRequest(serverURL string) (string, float64, error) {
 		strings.NewReader(data.Encode()))
 	if err != nil {
 		return "", -1, err
+	}
+
+	if h.DigestUser != "" && h.DigestPassword != "" {
+		r := digestRequest.New(context.Background(), h.DigestUser, h.DigestPassword) // username & password
+		respDigest, _ := r.Do(req)
+		defer respDigest.Body.Close()
 	}
 
 	// Add header parameters
