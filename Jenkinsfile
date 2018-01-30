@@ -46,7 +46,7 @@ pipeline
 		{
 			steps
 			{
-				archiveArtifacts artifacts: 'release/**', onlyIfSuccessful: true
+				archiveArtifacts artifacts: 'release/**', onlyIfSuccessful: false
 			}
 		}
 		stage('CleanUp')
