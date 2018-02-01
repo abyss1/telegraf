@@ -18,6 +18,7 @@
 
 ### New Plugins
 
+- [ipset](./plugins/inputs/ipset/README.md) - Thanks to @sajoupa
 - [nats](./plugins/inputs/nats/README.md) - Thanks to @mjs & @levex
 
 ### Features
@@ -39,10 +40,17 @@
 - [#3674](https://github.com/influxdata/telegraf/pull/3674): Add NATS Monitoring Input Plugin.
 - [#3702](https://github.com/influxdata/telegraf/pull/3702): Add ability to select which queues will be gathered in rabbitmq input.
 - [#3726](https://github.com/influxdata/telegraf/pull/3726): Add support for setting bsd source address to the ping input.
+- [#3346](https://github.com/influxdata/telegraf/pull/3346): Add Ipset input plugin.
 
 ### Bugfixes
 
 - [#1896](https://github.com/influxdata/telegraf/issues/1896): Fix various mysql data type conversions.
+
+## v1.5.3 [unreleased]
+
+### Bugfixes
+
+- [#3729](https://github.com/influxdata/telegraf/issues/3729): Set path to / if HOST_MOUNT_PREFIX matches full path.
 
 ## v1.5.2 [2018-01-30]
 
