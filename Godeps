@@ -10,6 +10,8 @@ github.com/couchbase/go-couchbase bfe555a140d53dc1adf390f1a1d4b0fd4ceadb28
 github.com/couchbase/gomemcached 4a25d2f4e1dea9ea7dd76dfd943407abf9b07d29
 github.com/couchbase/goutils 5823a0cbaaa9008406021dc5daf80125ea30bba6
 github.com/davecgh/go-spew 346938d642f2ec3594ed81d874461961cd0faa76
+github.com/delphinus/go-digest-request b80f4d36fe702d0a729ddf5abbb807a3e61a9f88
+github.com/delphinus/random-string 866a3432f55e35fd7c9e78fe07f7d3827c8df724
 github.com/dgrijalva/jwt-go dbeaa9332f19a944acb5736b4456cfcc02140e29
 github.com/docker/docker f5ec1e2936dcbe7b5001c2b817188b095c700c27
 github.com/docker/go-connections 990a1a1a70b0da4c4cb70e117971a4f0babfbf1a
@@ -70,7 +72,7 @@ github.com/shirou/w32 3c9377fc6748f222729a8270fe2775d149a249ad
 github.com/Shopify/sarama 3b1b38866a79f06deddf0487d5c27ba0697ccd65
 github.com/Sirupsen/logrus 61e43dc76f7ee59a82bdf3d71033dc12bea4c77d
 github.com/soniah/gosnmp 5ad50dc75ab389f8a1c9f8a67d3a1cd85f67ed15
-github.com/StackExchange/wmi f3e2bae1e0cb5aef83e319133eabfee30013a4a5
+github.com/StackExchange/wmi e54cbda6595d7293a7a468ccf9525f6bc8887f99
 github.com/streadway/amqp 63795daa9a446c920826655f26ba31c81c860fd6
 github.com/stretchr/objx 1a9d0bb9f541897e62256577b352fdbc1fb4fd94
 github.com/stretchr/testify 4d4bfba8f1d1027c4fdbe371823030df51419987
