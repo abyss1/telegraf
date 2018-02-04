@@ -68,7 +68,7 @@ pipeline
 		{
 			steps
 			{
-				//cleanWs()
+				cleanWs()
 				notifySuccessful()
 			}
 		}
