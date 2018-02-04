@@ -17,7 +17,22 @@ pipeline
 			{
 				dir('src/github.com/influxdata/telegraf') 
 				{
-					checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'HuaweiHilinkApi']], [$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'OpenHardwareMonitor']]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '5f43e7cc-565c-4d25-adb7-f1f70e87f206', url: 'https://github.com/marianob85/telegraf']]]
+					checkout changelog: true, poll: true, scm: 
+					[$class: 'GitSCM', branches: 
+						[
+							[name: '*/master']
+						], 
+						doGenerateSubmoduleConfigurations: false, extensions: 
+						[
+							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'HuaweiHilinkApi']], 
+							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'OpenHardwareMonitor']],
+							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'WebApi']]
+						], 
+						submoduleCfg: [], userRemoteConfigs: 
+						[
+							[credentialsId: '5f43e7cc-565c-4d25-adb7-f1f70e87f206', url: 'https://github.com/marianob85/telegraf']
+						]
+					]
 				}
 				sh '''
 					rm -f -d -r ./release
