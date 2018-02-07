@@ -270,7 +270,7 @@ func (h *WebApi) gatherServer(
 	}
 
 	var mapInterfaceParser MapInterfaceParser
-	mapInterfaceParser.initDebug(h.Debug)
+	mapInterfaceParser.initDebug(h.Debug, serverURL)
 	metricsTable, err := mapInterfaceParser.parseMapInterface(f, tags, h.Variable)
 	if err != nil {
 		return err
@@ -406,9 +406,10 @@ func (j *MapInterfaceParser) findVariable(name string) (Variable, bool) {
 	return Variable{}, false
 }
 
-func (j *MapInterfaceParser) initDebug(debug bool) {
+func (j *MapInterfaceParser) initDebug(debug bool, server string) {
 	if debug {
-		j.file, _ = os.Create("webapi_debug")
+		u, _ := url.Parse(server)
+		j.file, _ = os.Create("webapi_debug_" + u.Host + "-" + u.RawQuery + ".txt")
 	}
 }
 

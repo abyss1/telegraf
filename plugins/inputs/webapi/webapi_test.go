@@ -260,7 +260,7 @@ func genMockHttpXml(response string, statusCode int) []*WebApi {
 		&WebApi{
 			client: &mockHTTPClient{responseBody: response, statusCode: statusCode},
 			Servers: []string{
-				"http://server1.example.com/metrics/",
+				"http://test.example.com/oscamapi.html?part=userstats",
 			},
 			Name:   "my_webapp",
 			Method: "GET",
@@ -273,6 +273,7 @@ func genMockHttpXml(response string, statusCode int) []*WebApi {
 				"apiVersion":   "v1",
 			},
 			InputFormatType: "xml",
+			Debug:           true,
 			Variable: []Variable{
 				{Name: "oscam.status.client.-au", Type: "float"},
 				{Name: "oscam.status.client.request.-caid", Type: "float"},
