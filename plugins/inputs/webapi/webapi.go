@@ -269,7 +269,7 @@ func (h *WebApi) gatherServer(
 		return err
 	}
 
-	var mapInterfaceParser MapInterfaceParser
+	mapInterfaceParser := MapInterfaceParser{TagKeys: h.TagKeys}
 	mapInterfaceParser.initDebug(h.Debug, serverURL)
 	metricsTable, err := mapInterfaceParser.parseMapInterface(f, tags, h.Variable)
 	if err != nil {
@@ -378,6 +378,7 @@ type MapInterfaceParser struct {
 	metricsTable []MetricsTable
 	variable     []Variable
 	file         *os.File
+	TagKeys      []string
 }
 
 func (j *MapInterfaceParser) parseMapInterface(data interface{}, Tags map[string]string, variable []Variable) ([]MetricsTable, error) {
@@ -432,10 +433,6 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 		metricsTable.tags["node"] = "."
 	}
 
-	for k, v := range indexes {
-		metricsTable.tags[k] = v
-	}
-
 	switch vv := data.(type) {
 	case string:
 		if len(vv) == 0 {
@@ -457,7 +454,7 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				}
 				metricsTable.fields[name] = val
 			case Int:
-				var IntBase int = 0
+				IntBase := 0
 				if len(value.Parameter) > 0 {
 					BaseBal, err := strconv.ParseInt(value.Parameter, 0, 0)
 					if err != nil {
@@ -507,6 +504,9 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 	}
 
 	if len(metricsTable.fields) > 0 {
+		for k, v := range indexes {
+			metricsTable.tags[k] = v
+		}
 		j.metricsTable = append(j.metricsTable, metricsTable)
 	}
 	return nil
