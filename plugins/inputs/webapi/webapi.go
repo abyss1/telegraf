@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/clbanning/mxj/x2j"
+	"github.com/delphinus/go-digest-request"
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/plugins/inputs"
