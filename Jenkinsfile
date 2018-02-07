@@ -1,7 +1,13 @@
 properties(
 	[
 		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
-		pipelineTriggers([upstream(threshold: 'SUCCESS', upstreamProjects: 'Marianob85/telegraf/HuaweiHilinkApi, Marianob85/telegraf/OpenHardwareMonitor '), pollSCM('0 H(5-6) * * *')])
+		pipelineTriggers
+		(
+			[
+				upstream(threshold: 'SUCCESS', upstreamProjects: 'Marianob85/telegraf/HuaweiHilinkApi, Marianob85/telegraf/OpenHardwareMonitor, Marianob85/telegraf/WebApi '), 
+				pollSCM('0 H(5-6) * * *')
+			]
+		)
 	]
 )
 
