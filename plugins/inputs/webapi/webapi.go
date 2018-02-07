@@ -174,7 +174,7 @@ var sampleConfig = `
   # [[inputs.webapi.variable]] # optional
   # Name = "rel_cwcache" # The variable name should be in full path eg. a.b.c.d
   # Type = "float" # bool, int, float
-  # Parameter = "" # optional paremeter eg. format for int parser
+  # Parameter = "" # optional paremeter eg. format for int parser, use eg. 16 when input value is in hex format eg. 0C27
 `
 
 func (h *WebApi) SampleConfig() string {
