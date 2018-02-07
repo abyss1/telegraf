@@ -90,7 +90,9 @@ Additional fields are dependant on the response of the remote service being poll
 If field contain string, webapi can convert them to numerical value. [[inputs.webapi.variable]] contain:
 
 **Name**: The field name that should be parse. It should contain full path ( node + variable name )
+
 **Type**: Type to which value should be parse. Available are: ***bool, int, float, time***
+
 **Parameter**: Additional parameter to parse function. 
 
 ### XML vs. JSON
