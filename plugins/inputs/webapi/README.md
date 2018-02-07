@@ -29,7 +29,8 @@ The webapi plugin collects data from HTTP URLs which respond with JSON and XML. 
 
   ## Debug mode. This will generate additional file with all input data parsed as node + value.
   ## Usefull while creating inputs.webapi.variable configuration when values are store in string format 
-
+  # Debug = false
+  
   ## Input type format: xml, json
   ## There is some diference in xml and json metrics provided
   # InputFormatType = "json" # optional, default: json
