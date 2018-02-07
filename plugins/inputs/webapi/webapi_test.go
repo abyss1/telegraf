@@ -161,6 +161,16 @@ var validXmlExpected = []MetricsTable{
 	MetricsTable{Fields{"-provid": float64(2)}, Tags{"node": "oscam.status.client.request", "client": "1"}},
 }
 
+const checkXmlCDATA = `
+<oscam version="1.20-unstable_svn build r681b5b12" revision="681b5b12" starttime="2018-01-20T18:30:59+0100" uptime="1193390" readonly="0">
+	<status>
+	</status>
+	<log><![CDATA[ 
+   
+	]]></log>
+</oscam>
+`
+
 type mockHTTPClient struct {
 	responseBody string
 	statusCode   int
@@ -423,7 +433,7 @@ func TestHttpJsonEmptyResponse(t *testing.T) {
 var jsonBOM = []byte("\xef\xbb\xbf[{\"value\":17}]")
 
 // TestHttpBOM tests that UTF-8 JSON with a BOM can be parsed
-func HttpJsonBOM(t *testing.T) {
+func TestHttpJsonBOM(t *testing.T) {
 	httpjson := genMockHttpJson(string(jsonBOM), 200)
 
 	for _, service := range httpjson {
@@ -432,6 +442,17 @@ func HttpJsonBOM(t *testing.T) {
 			err := acc.GatherError(service.Gather)
 			require.NoError(t, err)
 		}
+	}
+}
+
+func TestHttpXmlCDATA(t *testing.T) {
+	httpjson := genMockHttpXml(checkXmlCDATA, 200)
+
+	for _, service := range httpjson {
+		var acc testutil.Accumulator
+		err := acc.GatherError(service.Gather)
+		require.NoError(t, err)
+		assert.Equal(t, 2, acc.NFields())
 	}
 }
 
