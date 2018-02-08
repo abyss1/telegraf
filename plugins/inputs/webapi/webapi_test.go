@@ -140,7 +140,6 @@ const validJSONTag = `
 			"ucs":1,
 			"client":[
 				{
-					"name":"ClientA",
 					"thid": 90,
 					"connection": {
 						"port": 0,
@@ -148,7 +147,6 @@ const validJSONTag = `
 					}
 				}
 				,{
-					"name":"ClientB",
 					"thid": 8370,
 					"connection": {
 						"port": 1234,
@@ -166,7 +164,7 @@ const validJSONTag = `
 `
 
 var JSONTag = []string{
-	//"oscam.status.client.name",
+	"oscam.status.client.name",
 	"oscam.rootName",
 }
 

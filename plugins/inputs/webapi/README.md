@@ -84,7 +84,7 @@ Additional fields are dependant on the response of the remote service being poll
 - All measurements have the following tags:
 	- server: HTTP origin as defined in configuration as `servers`.
 
-~~Any top level keys listed under `tag_keys` in the configuration are added as tags.  Top level keys are defined as keys in the root level of the object in a single object response, or in the root level of each object within an array of objects.~~ *Not supported*
+Any top level keys listed under `tag_keys` in the configuration are added as tags.  Top level keys are defined as keys in the root level of the object in a single object response, or in the root level of each object within an array of objects.
 
 ### Variable:
 If field contain string, webapi can convert them to numerical value. [[inputs.webapi.variable]] contain:
