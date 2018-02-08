@@ -248,8 +248,11 @@ func (h *WebApi) gatherServer(
 		msrmnt_name = "webapi_" + h.Name
 	}
 
+	url, _ := url.Parse(serverURL)
+
 	tags := map[string]string{
 		"server": serverURL,
+		"host":   url.Host,
 	}
 
 	var f interface{}
