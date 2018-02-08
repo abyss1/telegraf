@@ -131,6 +131,65 @@ var validJSONExpectedArrayOfArray3 = []MetricsTable{
 	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1"}},
 }
 
+const validJSONTag = `
+{
+	"oscam": {
+		"failbannotifier":0,
+		"rootName":"root",
+		"status": {
+			"ucs":1,
+			"client":[
+				{
+					"name":"ClientA",
+					"thid": 90,
+					"connection": {
+						"port": 0,
+						"entitlements":[]
+					}
+				}
+				,{
+					"name":"ClientB",
+					"thid": 8370,
+					"connection": {
+						"port": 1234,
+						"entitlements":[
+							{"locals":4,"cccount":4,"ccchop1":4},
+							{"locals":5,"cccount":5,"ccchop1":5}
+						]
+					}
+				}
+			]
+		}
+	},
+	"test":123
+}
+`
+
+var JSONTag = []string{
+	//"oscam.status.client.name",
+	"oscam.rootName",
+}
+
+var validJSONExpectedTag = []MetricsTable{
+	MetricsTable{Fields{"test": float64(123)}, Tags{"node": ".", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam.status", "oscam.rootName": "root"}},
+	// Client 0
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0", "oscam.rootName": "root"}},
+	// Client 1
+	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam.status.client", "client": "1", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam.status.client.connection", "client": "1", "oscam.rootName": "root"}},
+	// Client 1 entitlements 0
+	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
+	// Client 1 entitlements 1
+	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
+}
+
 const invalidJSON = "I don't think this is JSON"
 
 const emptyJSON = ""
@@ -235,23 +294,23 @@ func genMockHttpJson(response string, statusCode int) []*WebApi {
 			Debug:    false,
 			Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent.child", Type: "int"}},
 		},
-		&WebApi{
-			client: &mockHTTPClient{responseBody: response, statusCode: statusCode},
-			Servers: []string{
-				"http://server3.example.com/metrics/",
-			},
-			Name:   "other_webapp",
-			Method: "POST",
-			Parameters: map[string]string{
-				"httpParam1": "12",
-				"httpParam2": "the second parameter",
-			},
-			Headers: map[string]string{
-				"X-Auth-Token": "the-first-parameter",
-				"apiVersion":   "v1",
-			},
-			Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent.child", Type: "int"}},
-		},
+		// &WebApi{
+		// 	client: &mockHTTPClient{responseBody: response, statusCode: statusCode},
+		// 	Servers: []string{
+		// 		"http://server3.example.com/metrics/",
+		// 	},
+		// 	Name:   "other_webapp",
+		// 	Method: "POST",
+		// 	Parameters: map[string]string{
+		// 		"httpParam1": "12",
+		// 		"httpParam2": "the second parameter",
+		// 	},
+		// 	Headers: map[string]string{
+		// 		"X-Auth-Token": "the-first-parameter",
+		// 		"apiVersion":   "v1",
+		// 	},
+		// 	Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent.child", Type: "int"}},
+		// },
 	}
 }
 
@@ -473,5 +532,18 @@ func TestStringValueTrim(t *testing.T) {
 		ret, err := mapInterfaceParser.trimString(k)
 		require.NoError(t, err)
 		assert.Equal(t, v, ret)
+	}
+}
+
+func TestHttpJsonTag(t *testing.T) {
+	httpjson := genMockHttpJson(validJSONTag, 200)
+
+	for _, service := range httpjson {
+		service.TagKeys = JSONTag
+		var acc testutil.Accumulator
+		err := acc.GatherError(service.Gather)
+		require.NoError(t, err)
+
+		compareMetrics(t, acc.Metrics, validJSONExpectedTag)
 	}
 }

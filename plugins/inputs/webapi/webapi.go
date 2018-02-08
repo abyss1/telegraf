@@ -384,7 +384,7 @@ type MapInterfaceParser struct {
 func (j *MapInterfaceParser) parseMapInterface(data interface{}, Tags map[string]string, variable []Variable) ([]MetricsTable, error) {
 	j.variable = variable
 
-	err := j.parse(data, "", "", nil)
+	err := j.parse(data, "", "", make(map[string]string))
 	if err != nil {
 		return nil, err
 	}
@@ -420,6 +420,30 @@ func (j *MapInterfaceParser) printDebug(key string, value interface{}) {
 	}
 }
 
+func (j *MapInterfaceParser) isTag(node string) bool {
+	for _, val := range j.TagKeys {
+		if val == node {
+			return true
+		}
+	}
+	return false
+}
+
+func (j *MapInterfaceParser) gatherTag(node string, nodeName string, val string, index map[string]string) bool {
+	if j.isTag(nodeName) {
+		index[nodeName] = val
+		for m_idx, _ := range j.metricsTable {
+			for _, v := range j.metricsTable[m_idx].tags {
+				if v == node {
+					j.metricsTable[m_idx].tags[nodeName] = val
+				}
+			}
+		}
+		return false
+	}
+	return true
+}
+
 func (j *MapInterfaceParser) parse(data interface{}, node string, name string, indexes map[string]string) error {
 	metricsTable := MetricsTable{fields: make(map[string]interface{}), tags: make(map[string]string)}
 	var nodeName string
@@ -439,20 +463,29 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 			return nil
 		}
 		j.printDebug(nodeName, vv)
-		vvv, err := j.trimString(vv)
-		if err != nil {
-			return err
-		}
 		value, exist := j.findVariable(nodeName)
 		if exist {
-
+			vvv, err := j.trimString(vv)
+			if err != nil {
+				return err
+			}
 			switch value.getType() {
 			case Float:
 				val, err := strconv.ParseFloat(vvv, 32)
 				if err != nil {
 					return err
 				}
-				metricsTable.fields[name] = val
+				if j.gatherTag(node, nodeName, vvv, indexes) {
+					metricsTable.fields[name] = val
+				}
+			case Bool:
+				val, err := strconv.ParseBool(vvv)
+				if err != nil {
+					return err
+				}
+				if j.gatherTag(node, nodeName, vvv, indexes) {
+					metricsTable.fields[name] = val
+				}
 			case Int:
 				IntBase := 0
 				if len(value.Parameter) > 0 {
@@ -466,7 +499,9 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				if err != nil {
 					return err
 				}
-				metricsTable.fields[name] = val
+				if j.gatherTag(node, nodeName, vvv, indexes) {
+					metricsTable.fields[name] = val
+				}
 				// case Duration:
 				// 	val, err := time.Parse(value.Parameter, vvv)
 				// 	if err != nil {
@@ -477,12 +512,18 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				// 	// TODO: Time variable !!!! Convert to some format !
 				// 	metricsTable.fields[name] = val
 			}
+		} else {
+			j.gatherTag(node, nodeName, vv, indexes)
 		}
 	case float64:
-		metricsTable.fields[name] = vv
+		if j.gatherTag(node, nodeName, strconv.FormatFloat(vv, 'f', 2, 64), indexes) {
+			metricsTable.fields[name] = vv
+		}
 		j.printDebug(nodeName, vv)
 	case int:
-		metricsTable.fields[name] = vv
+		if j.gatherTag(node, nodeName, strconv.Itoa(vv), indexes) {
+			metricsTable.fields[name] = vv
+		}
 		j.printDebug(nodeName, vv)
 	case []interface{}:
 		for i, u := range vv {
