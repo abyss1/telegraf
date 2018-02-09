@@ -251,8 +251,8 @@ func (h *WebApi) gatherServer(
 	url, _ := url.Parse(serverURL)
 
 	tags := map[string]string{
-		"server": serverURL,
-		"host":   url.Host,
+		"url":    serverURL,
+		"server": url.Host,
 	}
 
 	var f interface{}
