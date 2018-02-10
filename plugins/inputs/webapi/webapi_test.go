@@ -347,6 +347,7 @@ check:
 		metricsTable := MetricsTable{fields: m.Fields, tags: m.Tags}
 		delete(metricsTable.fields, "response_time")
 		delete(metricsTable.tags, "server")
+		delete(metricsTable.tags, "url")
 		var notfoundedExp MetricsTable
 		for _, v := range expected {
 			if reflect.DeepEqual(metricsTable, v) {
