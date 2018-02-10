@@ -140,6 +140,7 @@ const validJSONTag = `
 			"ucs":1,
 			"client":[
 				{
+					"name":"Client0",
 					"thid": 90,
 					"connection": {
 						"port": 0,
@@ -147,12 +148,23 @@ const validJSONTag = `
 					}
 				}
 				,{
+					"name":"Client1",
 					"thid": 8370,
 					"connection": {
 						"port": 1234,
 						"entitlements":[
-							{"locals":4,"cccount":4,"ccchop1":4},
-							{"locals":5,"cccount":5,"ccchop1":5}
+							{
+								"ent":"Ent0",
+								"locals":4,
+								"cccount":4,
+								"ccchop1":4
+							},
+							{
+								"ent":"Ent1",
+								"locals":5,
+								"cccount":5,
+								"ccchop1":5
+							}
 						]
 					}
 				}
@@ -166,6 +178,7 @@ const validJSONTag = `
 var JSONTag = []string{
 	"oscam.status.client.name",
 	"oscam.rootName",
+	"oscam.status.client.connection.entitlements.ent",
 }
 
 var validJSONExpectedTag = []MetricsTable{
@@ -173,19 +186,49 @@ var validJSONExpectedTag = []MetricsTable{
 	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam", "oscam.rootName": "root"}},
 	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam.status", "oscam.rootName": "root"}},
 	// Client 0
-	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0", "oscam.rootName": "root", "oscam.status.client.name": "Client0"}},
+	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0", "oscam.rootName": "root", "oscam.status.client.name": "Client0"}},
 	// Client 1
-	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam.status.client", "client": "1", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam.status.client.connection", "client": "1", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam.status.client", "client": "1", "oscam.rootName": "root", "oscam.status.client.name": "Client1"}},
+	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam.status.client.connection", "client": "1", "oscam.rootName": "root", "oscam.status.client.name": "Client1"}},
 	// Client 1 entitlements 0
-	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "0",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
+	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "0",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
+	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "0",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
 	// Client 1 entitlements 1
-	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "1",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
+	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "1",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
+	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
+		"client":                                          "1",
+		"entitlements":                                    "1",
+		"oscam.rootName":                                  "root",
+		"oscam.status.client.name":                        "Client1",
+		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
 }
 
 const invalidJSON = "I don't think this is JSON"

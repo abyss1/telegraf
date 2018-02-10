@@ -377,12 +377,31 @@ type MetricsTable struct {
 	tags   Tags
 }
 
+type IndexTags struct {
+	index map[string]string
+	tag   map[string]string
+}
+
 type MapInterfaceParser struct {
 	metricsTable []MetricsTable
 	variable     []Variable
 	file         *os.File
 	TagKeys      []string
 	customTags   map[string]string
+	indexTags    []IndexTags
+}
+
+func findIndex(dataToMatch map[string]string, dataToSearch map[string]string) bool {
+	for k, v := range dataToSearch {
+		if val, ok := dataToMatch[k]; ok {
+			if val == v {
+				continue
+			}
+			return false
+		}
+		return false
+	}
+	return true
 }
 
 func (j *MapInterfaceParser) parseMapInterface(data interface{}, Tags map[string]string, variable []Variable) ([]MetricsTable, error) {
@@ -393,12 +412,19 @@ func (j *MapInterfaceParser) parseMapInterface(data interface{}, Tags map[string
 		return nil, err
 	}
 
-	for idx, _ := range j.metricsTable {
+	for idx := range j.metricsTable {
 		for k, v := range Tags {
 			j.metricsTable[idx].tags[k] = v
 		}
 		for k, v := range j.customTags {
 			j.metricsTable[idx].tags[k] = v
+		}
+		for _, indexTag := range j.indexTags {
+			if findIndex(j.metricsTable[idx].tags, indexTag.index) {
+				for k, v := range indexTag.tag {
+					j.metricsTable[idx].tags[k] = v
+				}
+			}
 		}
 	}
 
@@ -436,9 +462,18 @@ func (j *MapInterfaceParser) isTag(node string) bool {
 	return false
 }
 
-func (j *MapInterfaceParser) gatherTag(node string, nodeName string, val string) bool {
+func (j *MapInterfaceParser) gatherTag(node string, nodeName string, val string, indexes map[string]string) bool {
 	if j.isTag(nodeName) {
-		j.customTags[nodeName] = val
+		if len(indexes) > 0 {
+			indexTags := IndexTags{index: make(map[string]string), tag: make(map[string]string)}
+			for k, v := range indexes {
+				indexTags.index[k] = v
+			}
+			indexTags.tag[nodeName] = val
+			j.indexTags = append(j.indexTags, indexTags)
+		} else {
+			j.customTags[nodeName] = val
+		}
 		return false
 	}
 	return true
@@ -475,7 +510,7 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				if err != nil {
 					return err
 				}
-				if j.gatherTag(node, nodeName, vvv) {
+				if j.gatherTag(node, nodeName, vvv, indexes) {
 					metricsTable.fields[name] = val
 				}
 			case Bool:
@@ -483,7 +518,7 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				if err != nil {
 					return err
 				}
-				if j.gatherTag(node, nodeName, vvv) {
+				if j.gatherTag(node, nodeName, vvv, indexes) {
 					metricsTable.fields[name] = val
 				}
 			case Int:
@@ -499,7 +534,7 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				if err != nil {
 					return err
 				}
-				if j.gatherTag(node, nodeName, vvv) {
+				if j.gatherTag(node, nodeName, vvv, indexes) {
 					metricsTable.fields[name] = val
 				}
 				// case Duration:
@@ -513,15 +548,15 @@ func (j *MapInterfaceParser) parse(data interface{}, node string, name string, i
 				// 	metricsTable.fields[name] = val
 			}
 		} else {
-			j.gatherTag(node, nodeName, vv)
+			j.gatherTag(node, nodeName, vv, indexes)
 		}
 	case float64:
-		if j.gatherTag(node, nodeName, strconv.FormatFloat(vv, 'f', 2, 64)) {
+		if j.gatherTag(node, nodeName, strconv.FormatFloat(vv, 'f', 2, 64), indexes) {
 			metricsTable.fields[name] = vv
 		}
 		j.printDebug(nodeName, vv)
 	case int:
-		if j.gatherTag(node, nodeName, strconv.Itoa(vv)) {
+		if j.gatherTag(node, nodeName, strconv.Itoa(vv), indexes) {
 			metricsTable.fields[name] = vv
 		}
 		j.printDebug(nodeName, vv)
