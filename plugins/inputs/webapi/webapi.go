@@ -479,17 +479,26 @@ func (j *MapInterfaceParser) gatherTag(node string, nodeName string, val string,
 	return true
 }
 
+func trimName(name string) string {
+	characters := []string{"-", "."}
+	for _, char := range characters {
+		name = strings.Replace(name, char, "", -1)
+	}
+	return name
+}
+
 func (j *MapInterfaceParser) parse(data interface{}, node string, name string, indexes map[string]string) error {
 	metricsTable := MetricsTable{fields: make(map[string]interface{}), tags: make(map[string]string)}
+	name = trimName(name)
 	var nodeName string
 	if len(node) > 0 {
-		nodeName = node + "." + name
+		nodeName = node + "__" + name
 		metricsTable.tags["node"] = node
 	} else {
 		if len(name) > 0 {
 			nodeName = name
 		}
-		metricsTable.tags["node"] = "."
+		metricsTable.tags["node"] = "__"
 	}
 
 	switch vv := data.(type) {

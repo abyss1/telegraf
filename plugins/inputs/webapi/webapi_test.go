@@ -30,11 +30,11 @@ const validJSON = `
 	}`
 
 var validJSONexpected = []MetricsTable{
-	MetricsTable{Fields{"integer": float64(693500)}, Tags{"node": "."}},
+	MetricsTable{Fields{"integer": float64(693500)}, Tags{"node": "__"}},
 	MetricsTable{Fields{"child": int64(3)}, Tags{"node": "parent"}},
-	MetricsTable{Fields{"list": 3.0}, Tags{"node": ".", "list": "0"}},
-	MetricsTable{Fields{"list": 4.0}, Tags{"node": ".", "list": "1"}},
-	MetricsTable{Fields{"another_list": float64(4)}, Tags{"node": ".", "another_list": "0"}},
+	MetricsTable{Fields{"list": 3.0}, Tags{"node": "__", "list": "0"}},
+	MetricsTable{Fields{"list": 4.0}, Tags{"node": "__", "list": "1"}},
+	MetricsTable{Fields{"another_list": float64(4)}, Tags{"node": "__", "another_list": "0"}},
 }
 
 const validJSONArrayOfArray = `
@@ -52,7 +52,7 @@ const validJSONArrayOfArray = `
 
 var validJSONExpectedArrayOfArray = []MetricsTable{
 	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam"}},
-	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0"}},
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam__status__client", "client": "0"}},
 }
 
 const validJSONArrayOfArray2 = `
@@ -77,9 +77,9 @@ const validJSONArrayOfArray2 = `
 
 var validJSONExpectedArrayOfArray2 = []MetricsTable{
 	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam"}},
-	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam.status"}},
-	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0"}},
-	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0"}},
+	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam__status"}},
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam__status__client", "client": "0"}},
+	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam__status__client__connection", "client": "0"}},
 }
 
 const validJSONArrayOfArray3 = `
@@ -114,21 +114,21 @@ const validJSONArrayOfArray3 = `
 
 var validJSONExpectedArrayOfArray3 = []MetricsTable{
 	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam"}},
-	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam.status"}},
+	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam__status"}},
 	// Client 0
-	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0"}},
-	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0"}},
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam__status__client", "client": "0"}},
+	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam__status__client__connection", "client": "0"}},
 	// Client 1
-	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam.status.client", "client": "1"}},
-	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam.status.client.connection", "client": "1"}},
+	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam__status__client", "client": "1"}},
+	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam__status__client__connection", "client": "1"}},
 	// Client 1 entitlements 0
-	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0"}},
-	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0"}},
-	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "0"}},
+	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "0"}},
+	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "0"}},
+	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "0"}},
 	// Client 1 entitlements 1
-	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1"}},
-	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1"}},
-	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements", "client": "1", "entitlements": "1"}},
+	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "1"}},
+	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "1"}},
+	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements", "client": "1", "entitlements": "1"}},
 }
 
 const validJSONTag = `
@@ -176,59 +176,59 @@ const validJSONTag = `
 `
 
 var JSONTag = []string{
-	"oscam.status.client.name",
-	"oscam.rootName",
-	"oscam.status.client.connection.entitlements.ent",
+	"oscam__status__client__name",
+	"oscam__rootName",
+	"oscam__status__client__connection__entitlements__ent",
 }
 
 var validJSONExpectedTag = []MetricsTable{
-	MetricsTable{Fields{"test": float64(123)}, Tags{"node": ".", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam", "oscam.rootName": "root"}},
-	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam.status", "oscam.rootName": "root"}},
+	MetricsTable{Fields{"test": float64(123)}, Tags{"node": "__", "oscam__rootName": "root"}},
+	MetricsTable{Fields{"failbannotifier": float64(0)}, Tags{"node": "oscam", "oscam__rootName": "root"}},
+	MetricsTable{Fields{"ucs": float64(1)}, Tags{"node": "oscam__status", "oscam__rootName": "root"}},
 	// Client 0
-	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam.status.client", "client": "0", "oscam.rootName": "root", "oscam.status.client.name": "Client0"}},
-	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam.status.client.connection", "client": "0", "oscam.rootName": "root", "oscam.status.client.name": "Client0"}},
+	MetricsTable{Fields{"thid": float64(90)}, Tags{"node": "oscam__status__client", "client": "0", "oscam__rootName": "root", "oscam__status__client__name": "Client0"}},
+	MetricsTable{Fields{"port": float64(0)}, Tags{"node": "oscam__status__client__connection", "client": "0", "oscam__rootName": "root", "oscam__status__client__name": "Client0"}},
 	// Client 1
-	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam.status.client", "client": "1", "oscam.rootName": "root", "oscam.status.client.name": "Client1"}},
-	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam.status.client.connection", "client": "1", "oscam.rootName": "root", "oscam.status.client.name": "Client1"}},
+	MetricsTable{Fields{"thid": float64(8370)}, Tags{"node": "oscam__status__client", "client": "1", "oscam__rootName": "root", "oscam__status__client__name": "Client1"}},
+	MetricsTable{Fields{"port": float64(1234)}, Tags{"node": "oscam__status__client__connection", "client": "1", "oscam__rootName": "root", "oscam__status__client__name": "Client1"}},
 	// Client 1 entitlements 0
-	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "0",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
-	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "0",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
-	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "0",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent0"}},
+	MetricsTable{Fields{"locals": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "0",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent0"}},
+	MetricsTable{Fields{"cccount": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "0",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent0"}},
+	MetricsTable{Fields{"ccchop1": float64(4)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "0",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent0"}},
 	// Client 1 entitlements 1
-	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "1",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
-	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "1",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
-	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam.status.client.connection.entitlements",
-		"client":                                          "1",
-		"entitlements":                                    "1",
-		"oscam.rootName":                                  "root",
-		"oscam.status.client.name":                        "Client1",
-		"oscam.status.client.connection.entitlements.ent": "Ent1"}},
+	MetricsTable{Fields{"locals": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "1",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent1"}},
+	MetricsTable{Fields{"cccount": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "1",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent1"}},
+	MetricsTable{Fields{"ccchop1": float64(5)}, Tags{"node": "oscam__status__client__connection__entitlements",
+		"client":                                               "1",
+		"entitlements":                                         "1",
+		"oscam__rootName":                                      "root",
+		"oscam__status__client__name":                          "Client1",
+		"oscam__status__client__connection__entitlements__ent": "Ent1"}},
 }
 
 const invalidJSON = "I don't think this is JSON"
@@ -250,15 +250,15 @@ const validXml = `
 `
 
 var validXmlExpected = []MetricsTable{
-	MetricsTable{Fields{"-uptime": float64(1193390)}, Tags{"node": "oscam"}},
+	MetricsTable{Fields{"uptime": float64(1193390)}, Tags{"node": "oscam"}},
 	// Client 0
-	MetricsTable{Fields{"-au": float64(1)}, Tags{"node": "oscam.status.client", "client": "0"}},
-	MetricsTable{Fields{"-caid": float64(10)}, Tags{"node": "oscam.status.client.request", "client": "0"}},
-	MetricsTable{Fields{"-provid": float64(1)}, Tags{"node": "oscam.status.client.request", "client": "0"}},
+	MetricsTable{Fields{"au": float64(1)}, Tags{"node": "oscam__status__client", "client": "0"}},
+	MetricsTable{Fields{"caid": float64(10)}, Tags{"node": "oscam__status__client__request", "client": "0"}},
+	MetricsTable{Fields{"provid": float64(1)}, Tags{"node": "oscam__status__client__request", "client": "0"}},
 	// Client 1
-	MetricsTable{Fields{"-au": float64(0)}, Tags{"node": "oscam.status.client", "client": "1"}},
-	MetricsTable{Fields{"-caid": float64(100)}, Tags{"node": "oscam.status.client.request", "client": "1"}},
-	MetricsTable{Fields{"-provid": float64(2)}, Tags{"node": "oscam.status.client.request", "client": "1"}},
+	MetricsTable{Fields{"au": float64(0)}, Tags{"node": "oscam__status__client", "client": "1"}},
+	MetricsTable{Fields{"caid": float64(100)}, Tags{"node": "oscam__status__client__request", "client": "1"}},
+	MetricsTable{Fields{"provid": float64(2)}, Tags{"node": "oscam__status__client__request", "client": "1"}},
 }
 
 const checkXmlCDATA = `
@@ -333,25 +333,8 @@ func genMockHttpJson(response string, statusCode int) []*WebApi {
 				"apiVersion":   "v1",
 			},
 			Debug:    false,
-			Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent.child", Type: "int"}},
+			Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent__child", Type: "int"}},
 		},
-		// &WebApi{
-		// 	client: &mockHTTPClient{responseBody: response, statusCode: statusCode},
-		// 	Servers: []string{
-		// 		"http://server3.example.com/metrics/",
-		// 	},
-		// 	Name:   "other_webapp",
-		// 	Method: "POST",
-		// 	Parameters: map[string]string{
-		// 		"httpParam1": "12",
-		// 		"httpParam2": "the second parameter",
-		// 	},
-		// 	Headers: map[string]string{
-		// 		"X-Auth-Token": "the-first-parameter",
-		// 		"apiVersion":   "v1",
-		// 	},
-		// 	Variable: []Variable{{Name: "integer", Type: "float"}, {Name: "parent.child", Type: "int"}},
-		// },
 	}
 }
 
@@ -375,10 +358,10 @@ func genMockHttpXml(response string, statusCode int) []*WebApi {
 			InputFormatType: "xml",
 			Debug:           false,
 			Variable: []Variable{
-				{Name: "oscam.status.client.-au", Type: "float"},
-				{Name: "oscam.status.client.request.-caid", Type: "float"},
-				{Name: "oscam.status.client.request.-provid", Type: "float"},
-				{Name: "oscam.-uptime", Type: "float"},
+				{Name: "oscam__status__client__au", Type: "float"},
+				{Name: "oscam__status__client__request__caid", Type: "float"},
+				{Name: "oscam__status__client__request__provid", Type: "float"},
+				{Name: "oscam__uptime", Type: "float"},
 			},
 		},
 	}
