@@ -18,13 +18,26 @@
 
 - The `sqlserver` input plugin has a new query and data model that can be enabled
   by setting `query_version = 2`.  It is encouraged to migrate to the new
-  model when possible as the old version is deprectated and will be removed in
+  model when possible as the old version is deprecated and will be removed in
   a future version.
 
-### New Plugins
+- An option has been added to the `openldap` input plugin that reverses metric
+  name to improve grouping.  This change is enabled when `reverse_metric_names = true`
+  is set.  It is encouraged to enable this option when possible as the old
+  ordering is deprecated.
 
+- The `httpjson` is now deprecated, please migrate to the new `http` input.
+
+
+### New Inputs
+
+- [http](./plugins/inputs/http/README.md) - Thanks to @grange74
 - [ipset](./plugins/inputs/ipset/README.md) - Thanks to @sajoupa
 - [nats](./plugins/inputs/nats/README.md) - Thanks to @mjs & @levex
+
+### New Parsers
+
+- [dropwizard](./docs/DATA_FORMATS_INPUT.md#dropwizard) - Thanks to @atzoum
 
 ### Features
 
@@ -49,16 +62,29 @@
 - [#3719](https://github.com/influxdata/telegraf/pull/3719): Add TLS and HTTP basic auth to prometheus_client output.
 - [#3618](https://github.com/influxdata/telegraf/pull/3618): Add new sqlserver output data model.
 - [#3559](https://github.com/influxdata/telegraf/pull/3559): Add native Go method for finding pids to procstat.
+- [#3722](https://github.com/influxdata/telegraf/pull/3722): Add additional metrics and reverse metric names option to openldap.
+- [#3769](https://github.com/influxdata/telegraf/pull/3769): Add TLS support to the mesos input plugin.
+- [#3546](https://github.com/influxdata/telegraf/pull/3546): Add http input plugin.
+- [#3781](https://github.com/influxdata/telegraf/pull/3781): Add keep alive support to the TCP mode of statsd.
+- [#3783](https://github.com/influxdata/telegraf/pull/3783): Support deadline in ping plugin.
+- [#3765](https://github.com/influxdata/telegraf/pull/3765): Add option to disable labels in prometheus output for string fields.
+- [#3808](https://github.com/influxdata/telegraf/pull/3808): Add shard server stats to the mongodb input plugin.
+- [#3713](https://github.com/influxdata/telegraf/pull/3713): Add server option to unbound plugin.
+- [#3804](https://github.com/influxdata/telegraf/pull/3804): Convert boolean metric values to float in datadog output.
 
 ### Bugfixes
 
 - [#1896](https://github.com/influxdata/telegraf/issues/1896): Fix various mysql data type conversions.
+- [#3810](https://github.com/influxdata/telegraf/issues/3810): Fix metric buffer limit in internal plugin after reload.
 
 ## v1.5.3 [unreleased]
 
 ### Bugfixes
 
 - [#3729](https://github.com/influxdata/telegraf/issues/3729): Set path to / if HOST_MOUNT_PREFIX matches full path.
+- [#3739](https://github.com/influxdata/telegraf/issues/3739): Remove userinfo from url tag in prometheus input.
+- [#3778](https://github.com/influxdata/telegraf/issues/3778): Fix ping plugin not reporting zero durations.
+- [#3697](https://github.com/influxdata/telegraf/issues/3697): Disable keepalive in mqtt output to prevent deadlock.
 
 ## v1.5.2 [2018-01-30]
 
