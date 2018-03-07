@@ -47,7 +47,7 @@ pipeline
 			}
 		}
 		
-		stage('Build') 
+		stage('Build package') 
 		{
 			steps
 			{
