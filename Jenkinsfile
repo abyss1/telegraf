@@ -52,7 +52,7 @@ pipeline
 		{
 			steps
 			{
-				sh """
+				sh '''
 					export GOROOT=/usr/local/go
 					export PATH=$PATH:$GOROOT/bin
 					export GOPATH=${WORKSPACE}
@@ -62,7 +62,7 @@ pipeline
 					make package
 					cd $workspace
 					mv ./src/github.com/influxdata/telegraf/build/ ./release/
-				"""
+				'''
 			}
 		}
 		
