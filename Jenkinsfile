@@ -58,7 +58,7 @@ pipeline
 					export GOPATH=${WORKSPACE}
 					workspace=`pwd`
 					cd ./src/github.com/influxdata/telegraf
-					perl -i -0pe 's/(supported_builds[\\s="\\w:\\[\\],\\{]*linux[:"\\s\[\\w,]*)/\\1_, "mipsle"/im' ./scripts/build.py
+					perl -i -0pe 's/(supported_builds[\\s="\\w:\\[\\],\\{]*linux[:"\\s\\[\\w,]*)/\\1_, "mipsle"/im' ./scripts/build.py
 					make package
 					cd $workspace
 					mv ./src/github.com/influxdata/telegraf/build/ ./release/
