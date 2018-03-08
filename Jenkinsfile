@@ -52,7 +52,7 @@ pipeline
 		{
 			steps
 			{
-				sh '''
+				sh """
 					export GOROOT=/usr/local/go
 					export PATH=$PATH:$GOROOT/bin
 					export GOPATH=${WORKSPACE}
@@ -61,7 +61,8 @@ pipeline
 					perl -i -0pe 's/(supported_builds[\s="\w:\[\],\{]*linux[:"\s\[\w,]*)/\1_, "mipsle"/im' ./scripts/build.py
 					make package
 					cd $workspace
-					mv ./src/github.com/influxdata/telegraf/build/ ./release/'''
+					mv ./src/github.com/influxdata/telegraf/build/ ./release/
+				"""
 			}
 		}
 		
