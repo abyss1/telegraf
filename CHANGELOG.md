@@ -35,6 +35,10 @@
 - [ipset](./plugins/inputs/ipset/README.md) - Thanks to @sajoupa
 - [nats](./plugins/inputs/nats/README.md) - Thanks to @mjs & @levex
 
+### New Processors
+
+- [override](./plugins/processors/override/README.md) - Thanks to @KarstenSchnitter
+
 ### New Parsers
 
 - [dropwizard](./docs/DATA_FORMATS_INPUT.md#dropwizard) - Thanks to @atzoum
@@ -71,11 +75,18 @@
 - [#3808](https://github.com/influxdata/telegraf/pull/3808): Add shard server stats to the mongodb input plugin.
 - [#3713](https://github.com/influxdata/telegraf/pull/3713): Add server option to unbound plugin.
 - [#3804](https://github.com/influxdata/telegraf/pull/3804): Convert boolean metric values to float in datadog output.
+- [#3799](https://github.com/influxdata/telegraf/pull/3799): Add Solr 3 compatibility.
+- [#3797](https://github.com/influxdata/telegraf/pull/3797): Add sum stat to basicstats aggregator.
+- [#3626](https://github.com/influxdata/telegraf/pull/3626): Add ability to override proxy from environment in http response.
+- [#3853](https://github.com/influxdata/telegraf/pull/3853): Add host to ping timeout log message.
+- [#3773](https://github.com/influxdata/telegraf/pull/3773): Add override processor.
+- [#3814](https://github.com/influxdata/telegraf/pull/3814): Add status_code and result tags and result_type field to http_response input.
 
 ### Bugfixes
 
 - [#1896](https://github.com/influxdata/telegraf/issues/1896): Fix various mysql data type conversions.
 - [#3810](https://github.com/influxdata/telegraf/issues/3810): Fix metric buffer limit in internal plugin after reload.
+- [#3801](https://github.com/influxdata/telegraf/issues/3801): Fix panic in http_response on invalid regex.
 
 ## v1.5.3 [unreleased]
 
@@ -85,6 +96,8 @@
 - [#3739](https://github.com/influxdata/telegraf/issues/3739): Remove userinfo from url tag in prometheus input.
 - [#3778](https://github.com/influxdata/telegraf/issues/3778): Fix ping plugin not reporting zero durations.
 - [#3697](https://github.com/influxdata/telegraf/issues/3697): Disable keepalive in mqtt output to prevent deadlock.
+- [#3786](https://github.com/influxdata/telegraf/pull/3786): Fix collation difference in sqlserver input.
+- [#3871](https://github.com/influxdata/telegraf/pull/3871): Fix uptime metric in passenger input plugin.
 
 ## v1.5.2 [2018-01-30]
 
