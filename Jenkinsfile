@@ -34,6 +34,7 @@ pipeline
 							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'HuaweiHilinkApi']], 
 							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'OpenHardwareMonitor']],
 							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'WebApi']]
+							[$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeTarget: 'enigma2_ping']]
 						], 
 						submoduleCfg: [], userRemoteConfigs: 
 						[
