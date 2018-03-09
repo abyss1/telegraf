@@ -79,7 +79,6 @@ pipeline
 			steps
 			{
 				cleanWs()
-				notifySuccessful()
 			}
 		}
 	}
